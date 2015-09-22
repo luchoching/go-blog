@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cho-Ching's Blog</title>
+</head>
+
+<body>
+  <h1>Cho-Ching's Blog</h1> 
+  <ul>
+    {{ range .PostList }}
+    <li><a href="/posts/{{.}}">{{.}}</a></li>
+    {{ end}}
+  </ul>
+</body>
+
+</html>
