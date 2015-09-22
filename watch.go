@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path"
 )
 
@@ -16,7 +17,13 @@ type Post struct {
 }
 
 type Index struct {
-	PostList []string
+	PostList []ListItem
+}
+
+// index list item 增加modified date, 用內容第1行當作title
+type ListItem struct {
+	Name    string
+	ModTime string
 }
 
 func loadPost(title string) *Post {
@@ -26,12 +33,20 @@ func loadPost(title string) *Post {
 	return &Post{title, body}
 }
 
+func loadListItem(f os.FileInfo) ListItem {
+	name := f.Name()
+	t := f.ModTime()
+	return ListItem{
+		Name:    name[:len(name)-3],
+		ModTime: t.Format("Mon Jan _2 15:04:05 2006"),
+	}
+}
+
 func loadPostList() *Index {
 	files, _ := ioutil.ReadDir("posts")
-	l := []string{}
+	l := []ListItem{}
 	for _, f := range files {
-		name := f.Name()
-		l = append(l, name[:len(name)-3])
+		l = append(l, loadListItem(f))
 	}
 	return &Index{l}
 }

@@ -10,7 +10,7 @@
   <h1>Cho-Ching's Blog</h1> 
   <ul>
     {{ range .PostList }}
-    <li><a href="/posts/{{.}}">{{.}}</a></li>
+    <li><a href="/posts/{{.Name}}">{{.Name}}</a> -- {{.ModTime}}</li>
     {{ end}}
   </ul>
 </body>
