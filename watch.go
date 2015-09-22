@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -11,15 +11,14 @@ import (
 
 type Post struct {
 	Title string
-	Body  string
+	Body  template.HTML
 }
 
 func loadPost(title string) *Post {
 	fileanme := title + ".md"
-	body, _ := ioutil.ReadFile(path.Join("posts", fileanme))
-	fmt.Println(fileanme)
-	fmt.Println(body)
-	return &Post{title, string(body)}
+	source, _ := ioutil.ReadFile(path.Join("posts", fileanme))
+	body := template.HTML(blackfriday.MarkdownCommon(source))
+	return &Post{title, body}
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
