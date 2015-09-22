@@ -1,6 +1,7 @@
 package main
 
 import (
+	//"fmt"
 	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
@@ -22,13 +23,13 @@ func loadPost(title string) *Post {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	p := loadPost(r.URL.Path[1:])
+	p := loadPost(r.URL.Path[len("/posts/"):])
 	t := template.Must(template.ParseFiles(path.Join("templates", "Post.html")))
 	t.Execute(w, p)
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/posts/", handler)
 	if err := http.ListenAndServe(":4000", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
