@@ -54,10 +54,12 @@ func loadPostList() *Index {
 var templates = map[string]*template.Template{
 	"post": template.Must(template.ParseFiles(
 		path.Join("templates", "Base.html"),
+		path.Join("templates", "Sidebar.html"),
 		path.Join("templates", "Post.html"),
 	)),
 	"index": template.Must(template.ParseFiles(
 		path.Join("templates", "Base.html"),
+		path.Join("templates", "Sidebar.html"),
 		path.Join("templates", "Index.html"),
 	)),
 }

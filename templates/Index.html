@@ -1,11 +1,21 @@
-{{ define "title"}} Cho-Ching's Blog {{ end}}
-
-{{define "content"}}
-  <h1>Cho-Ching's Blog</h1> 
-  <ul>
+{{ define "title"}} Cho-Ching's Blog {{ end}} {{define "content"}}
+<div>
+  <div class="posts">
+    <h1>Posts</h1>
     {{ range .PostList }}
-    <li><a href="/posts/{{.Name}}">{{.Name}}</a> -- {{.ModTime}}</li>
+    <section class="post">
+      <header class="post-header">
+        <h2 class="post-title">
+          <a href="/posts/{{.Name}}">{{.Name}}</a>  
+        </h2>
+        <p class="post-meta">
+          {{.ModTime}}
+        </p>
+      </header>
+      <div class="post-description">
+      </div>
+    </section>
     {{ end}}
-  </ul>
-{{.Body}}
-{{end }}
+  </div>
+</div>
+{{.Body}} {{end }}
