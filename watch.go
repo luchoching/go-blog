@@ -63,8 +63,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	http.HandleFunc("/posts/", handler)
 	http.HandleFunc("/", indexHandler)
+
 	if err := http.ListenAndServe(":4000", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
