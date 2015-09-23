@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="zh">
+{{ define "title"}} Cho-Ching's Blog {{ end}}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Cho-Ching's Blog</title>
-</head>
-
-<body>
+{{define "content"}}
   <h1>Cho-Ching's Blog</h1> 
   <ul>
     {{ range .PostList }}
     <li><a href="/posts/{{.Name}}">{{.Name}}</a> -- {{.ModTime}}</li>
     {{ end}}
   </ul>
-</body>
-
-</html>
+{{.Body}}
+{{end }}

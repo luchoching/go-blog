@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh">
+{{ define "title"}}
+{{.Title}}
+{{ end}}
 
-<head>
-  <meta charset="UTF-8">
-  <title>{{.Title}}</title>
-  <link rel="stylesheet" href="/static/css/main.css">
-</head>
-
-<body>
-  {{.Body}}
-</body>
-
-</html>
+{{define "content"}}
+{{.Body}}
+{{end }}

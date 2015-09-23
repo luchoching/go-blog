@@ -51,15 +51,24 @@ func loadPostList() *Index {
 	return &Index{l}
 }
 
+var templates = map[string]*template.Template{
+	"post": template.Must(template.ParseFiles(
+		path.Join("templates", "Base.html"),
+		path.Join("templates", "Post.html"),
+	)),
+	"index": template.Must(template.ParseFiles(
+		path.Join("templates", "Base.html"),
+		path.Join("templates", "Index.html"),
+	)),
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	p := loadPost(r.URL.Path[len("/posts/"):])
-	t := template.Must(template.ParseFiles(path.Join("templates", "Post.html")))
-	t.Execute(w, p)
+	templates["post"].ExecuteTemplate(w, "base", p)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(path.Join("templates", "Index.html")))
-	t.Execute(w, loadPostList())
+	templates["index"].ExecuteTemplate(w, "base", loadPostList())
 }
 
 func main() {
