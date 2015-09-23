@@ -1,0 +1,70 @@
+/* reset */
+html, body, div, span, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, code,
+strong, b, u, i,
+dl, dt, dd, ol, ul, li,
+article, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+article, aside, figure, footer, header, 
+nav, section, details, summary {
+  display: block;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+/* color definition */
+/* https://www.google.com/design/spec/style/color.html#color-color-palette */
+$DeepOrange: #FF5722;
+$Grey-200: #EEEEEE;
+$Grey-100: #F5F5F5;
+
+/* base style */
+body{
+  font: sans-serif;
+  line-height: 1.5;
+}
+
+pre {
+  background: $Grey-100;
+  padding: 0.5em 1em 0.5em 1em;
+  margin: 10px 0;
+}
+
+pre code{
+  padding: 0;
+  margin: 0;
+}
+
+code {
+  background: $Grey-100;
+  padding: 0 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6{
+  color: $DeepOrange;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 2em;
+  margin: 10px 0;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin: 5px 0;
+}
