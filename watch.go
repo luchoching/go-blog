@@ -20,9 +20,8 @@ type Index struct {
 	PostList []ListItem
 }
 
-// index list item 增加modified date, 用內容第1行當作title
 type ListItem struct {
-	Name    string
+	URL     string
 	ModTime string
 }
 
@@ -37,7 +36,7 @@ func loadListItem(f os.FileInfo) ListItem {
 	name := f.Name()
 	t := f.ModTime()
 	return ListItem{
-		Name:    name[:len(name)-3],
+		URL:     name[:len(name)-3],
 		ModTime: t.Format("Mon Jan _2 15:04:05 2006"),
 	}
 }
