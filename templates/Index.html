@@ -4,7 +4,7 @@
   <h1>Cho-Ching's Blog</h1> 
   <ul>
     {{ range .PostList }}
-    <li><a href="/posts/{{.URL}}">{{.URL}}</a> -- {{.ModTime}}</li>
+    <li><a href="/posts/{{.URL}}">{{.Title}}</a> -- {{.ModTime}}</li>
     {{ end}}
   </ul>
 {{.Body}}

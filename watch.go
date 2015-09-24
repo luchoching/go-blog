@@ -2,6 +2,7 @@ package main
 
 import (
 	//"fmt"
+	"bufio"
 	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 )
 
 type Post struct {
@@ -23,6 +25,7 @@ type Index struct {
 type ListItem struct {
 	URL     string
 	ModTime string
+	Title   string
 }
 
 func loadPost(title string) *Post {
@@ -32,12 +35,34 @@ func loadPost(title string) *Post {
 	return &Post{title, body}
 }
 
+func loadPostFirstLine(filename string) string {
+	f, err := os.Open(path.Join("posts", filename))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	var firstLine string
+	for scanner.Scan() {
+		firstLine = scanner.Text()
+		break
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return strings.TrimPrefix(firstLine, "# ")
+}
+
 func loadListItem(f os.FileInfo) ListItem {
 	name := f.Name()
 	t := f.ModTime()
 	return ListItem{
 		URL:     name[:len(name)-3],
 		ModTime: t.Format("Mon Jan _2 15:04:05 2006"),
+		Title:   loadPostFirstLine(name),
 	}
 }
 
