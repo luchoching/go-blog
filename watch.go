@@ -87,7 +87,7 @@ var templates = map[string]*template.Template{
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	p := loadPost(r.URL.Path[len("/posts/"):])
+	p := loadPost(r.URL.Path[len("/post/"):])
 	templates["post"].ExecuteTemplate(w, "base", p)
 }
 
@@ -99,7 +99,7 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/posts/", handler)
+	http.HandleFunc("/post/", handler)
 	http.HandleFunc("/", indexHandler)
 
 	if err := http.ListenAndServe(":4000", nil); err != nil {
