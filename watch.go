@@ -1,8 +1,8 @@
 package main
 
 import (
-	//"fmt"
 	"bufio"
+	//"fmt"
 	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
@@ -28,9 +28,9 @@ type ListItem struct {
 	Title   string
 }
 
-func loadPost(title string) *Post {
-	fileanme := title + ".md"
-	source, _ := ioutil.ReadFile(path.Join("posts", fileanme))
+func loadPost(srcDir string, title string) *Post {
+	filename := title + ".md"
+	source, _ := ioutil.ReadFile(path.Join(srcDir, filename))
 	body := template.HTML(blackfriday.MarkdownCommon(source))
 	return &Post{title, body}
 }
@@ -87,7 +87,12 @@ var templates = map[string]*template.Template{
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	p := loadPost(r.URL.Path[len("/post/"):])
+	p := loadPost("posts", r.URL.Path[len("/post/"):])
+	templates["post"].ExecuteTemplate(w, "base", p)
+}
+
+func draftHandler(w http.ResponseWriter, r *http.Request) {
+	p := loadPost("drafts", r.URL.Path[len("/draft/"):])
 	templates["post"].ExecuteTemplate(w, "base", p)
 }
 
@@ -100,6 +105,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/post/", handler)
+	http.HandleFunc("/draft/", draftHandler)
 	http.HandleFunc("/", indexHandler)
 
 	if err := http.ListenAndServe(":4000", nil); err != nil {
