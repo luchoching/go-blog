@@ -19,7 +19,8 @@ type Post struct {
 }
 
 type Index struct {
-	PostList []ListItem
+	PostList  []ListItem
+	DraftList []ListItem
 }
 
 type ListItem struct {
@@ -35,8 +36,8 @@ func loadPost(srcDir string, title string) *Post {
 	return &Post{title, body}
 }
 
-func loadPostFirstLine(filename string) string {
-	f, err := os.Open(path.Join("posts", filename))
+func loadPostFirstLine(postType string, filename string) string {
+	f, err := os.Open(path.Join(postType, filename))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,23 +57,29 @@ func loadPostFirstLine(filename string) string {
 	return strings.TrimPrefix(firstLine, "# ")
 }
 
-func loadListItem(f os.FileInfo) ListItem {
+func loadListItem(postType string, f os.FileInfo) ListItem {
 	name := f.Name()
 	t := f.ModTime()
 	return ListItem{
 		URL:     name[:len(name)-3],
 		ModTime: t.Format("Mon Jan _2 15:04:05 2006"),
-		Title:   loadPostFirstLine(name),
+		Title:   loadPostFirstLine(postType, name),
 	}
 }
 
 func loadPostList() *Index {
-	files, _ := ioutil.ReadDir("posts")
-	l := []ListItem{}
-	for _, f := range files {
-		l = append(l, loadListItem(f))
+	postFiles, _ := ioutil.ReadDir("posts")
+	draftFiles, _ := ioutil.ReadDir("drafts")
+	p := []ListItem{}
+	d := []ListItem{}
+	for _, f := range postFiles {
+		p = append(p, loadListItem("posts", f))
 	}
-	return &Index{l}
+	for _, f := range draftFiles {
+		d = append(d, loadListItem("drafts", f))
+	}
+
+	return &Index{p, d}
 }
 
 var templates = map[string]*template.Template{

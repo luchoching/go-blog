@@ -7,5 +7,12 @@
     <li><a href="/post/{{.URL}}">{{.Title}}</a> -- {{.ModTime}}</li>
     {{ end}}
   </ul>
+
+  <h2>Drafts</h2>
+  <ul>
+    {{ range .DraftList }}
+    <li><a href="/draft/{{.URL}}">{{.Title}}</a> -- {{.ModTime}}</li>
+    {{ end}}
+  </ul>
 {{.Body}}
 {{end }}
