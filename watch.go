@@ -103,16 +103,23 @@ func draftHandler(w http.ResponseWriter, r *http.Request) {
 	templates["post"].ExecuteTemplate(w, "base", p)
 }
 
+func pageHandler(w http.ResponseWriter, r *http.Request) {
+	p := loadPost("pages", r.URL.Path[len("/page/"):])
+	templates["post"].ExecuteTemplate(w, "base", p)
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	templates["index"].ExecuteTemplate(w, "base", loadPostList())
 }
 
 func main() {
+
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/post/", handler)
 	http.HandleFunc("/draft/", draftHandler)
+	http.HandleFunc("/page/", pageHandler)
 	http.HandleFunc("/", indexHandler)
 
 	if err := http.ListenAndServe(":4000", nil); err != nil {
